@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grobowa matematyka</title>
+</head>
+<body>
+    <form>
+        <input type="number" name="hektar" id="hektar" step="0.01">
+        <input type="button" value="Oblicz" id="submit" onclick="cal()">
+    </form>
+    <p id="result"></p>
+    <script>
+        function cal() {
+            var hektar = document.getElementById("hektar").value;
+            var totalArea = hektar * 10000;
+            var widthArea = Math.sqrt(totalArea);
+            var hightArea = widthArea;
+            var graveWidth = 1.5;
+            var graveHeight = 2.5;
+            var pathWidth = 0.5;
+            var pathHeight = 1;
+            
+            var graveWithPath = graveWidth + pathWidth;
+            
+            var gravesPerRow = Math.floor(widthArea / graveWithPath);
+            var areaLeft = graveWidth - (gravesPerRow * graveWithPath);
+            if (areaLeft >= graveWidth) {
+                gravesPerRow++;
+            }
+
+            var gravesRows = Math.floor(hightArea / (graveHeight + pathHeight));
+            var areaLeft = hightArea - (gravesRows * (graveHeight + pathHeight));
+            if (areaLeft >= graveHeight) {
+                gravesRows++;
+            }
+            
+            var graves = gravesPerRow * gravesRows;
+            var costPerGrave = 1000000 / graves; 
+            
+            var result = document.getElementById("result");
+            result.innerHTML = "Na " + hektar + " hektarach można wybudować " + graves + " grobów. Koszt za grób, aby zarobić milion, wynosi " + costPerGrave.toFixed(2) + ".";
+        }
+    </script>
+</body>
+</html>
